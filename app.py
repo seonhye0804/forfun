@@ -90,11 +90,25 @@ def get_question(qid: str) -> Question:
 
 
 # ---------------------------
-# 2) 스타일 (간단 UI 골격)
+# 2) 스타일 (우상단 Streamlit UI 요소 숨김 + 화면 스타일)
 # ---------------------------
 CSS = """
 <style>
-.block-container { padding-top: 2.2rem; padding-bottom: 2.2rem; max-width: 1100px; }
+/* ===== Streamlit 기본 UI(우상단 텍스트/큰 사각형 포함) 숨김 ===== */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+header { visibility: hidden; }
+
+/* 우상단 툴바/상태 위젯/장식 요소 숨김 (Streamlit 버전별 대응) */
+[data-testid="stToolbar"] { display: none !important; }
+[data-testid="stDecoration"] { display: none !important; }
+[data-testid="stHeader"] { display: none !important; }
+[data-testid="stStatusWidget"] { display: none !important; }
+
+/* 상단 여백도 약간 줄이기(헤더를 숨기면 빈 공간이 생기는 경우 보정) */
+.block-container { padding-top: 1.6rem; padding-bottom: 2.2rem; max-width: 1100px; }
+
+/* ===== 앱 본문 스타일 ===== */
 .frame {
   border: 2px solid #7a7a7a;
   border-radius: 4px;
@@ -110,8 +124,15 @@ CSS = """
   min-height: 440px;
   gap: 18px;
 }
-.h-title { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
-.subtle { color: #4b4b4b; font-size: 15px; line-height: 1.5; }
+.h-title {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-align: center;
+}
+.subtle { color: #4b4b4b; font-size: 15px; line-height: 1.5; text-align: center; }
+
 div.stButton > button {
   border: 2px solid #6d6d6d !important;
   background: #bdbdbd !important;
@@ -122,6 +143,7 @@ div.stButton > button {
   font-weight: 600 !important;
 }
 .small-btn div.stButton > button { min-width: 180px; padding: 8px 18px !important; }
+
 .card {
   border: 1.6px solid #8a8a8a;
   background: #d9d9d9;
@@ -157,6 +179,8 @@ def render_start_page():
     frame_open()
 
     st.markdown('<div class="center-wrap">', unsafe_allow_html=True)
+
+    # 시작화면 타이틀(요청: 크게)
     st.markdown('<p class="h-title">피로사회 마무리 퀴즈</p>', unsafe_allow_html=True)
     st.markdown('<div class="subtle">웹사이트 접속 → 시작하기 → 질문 리스트 → 카드 조건 활용해 답변</div>', unsafe_allow_html=True)
 
@@ -187,9 +211,9 @@ def render_list_page():
         left, right = st.columns([3, 2], vertical_alignment="center")
         with left:
             st.markdown(f"**{q.title}**")
-            st.markdown(f"<div class='subtle'>{q.prompt}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='subtle' style='text-align:left'>{q.prompt}</div>", unsafe_allow_html=True)
             st.markdown(
-                f"<div class='subtle'>상태: {'답변 ✅' if has_text else '답변 ⬜'} · {'별점 ✅' if has_rating else '별점 ⬜'}</div>",
+                f"<div class='subtle' style='text-align:left'>상태: {'답변 ✅' if has_text else '답변 ⬜'} · {'별점 ✅' if has_rating else '별점 ⬜'}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -258,12 +282,12 @@ def render_solve_page():
             if not answer.strip():
                 st.warning("답변을 입력해 주세요.")
             else:
-                # 세션에만 저장(로컬DB 저장 없음)
+                # 세션에만 저장
                 prev_rating = st.session_state.answers.get(qid, {}).get("rating", None)
                 st.session_state.answers[qid] = {"text": answer.strip(), "rating": prev_rating}
                 go("review", qid=qid)
     with b3:
-        st.markdown("<div class='subtle'>제출 후 별점을 매기고 질문 리스트로 돌아갑니다.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='subtle' style='text-align:left'>제출 후 별점을 매기고 질문 리스트로 돌아갑니다.</div>", unsafe_allow_html=True)
 
     frame_close()
 
@@ -277,7 +301,7 @@ def render_review_page():
     saved = st.session_state.answers.get(qid, {"text": "", "rating": None})
 
     st.markdown("**나의 답변 확인하고 스스로 채점해보기**")
-    st.markdown(f"<div class='subtle'>{q.title}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='subtle' style='text-align:left'>{q.title}</div>", unsafe_allow_html=True)
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
 
     st.text_area(
@@ -287,7 +311,7 @@ def render_review_page():
         disabled=True,
     )
 
-    st.markdown("<div class='subtle'>별점(1~5)</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtle' style='text-align:left'>별점(1~5)</div>", unsafe_allow_html=True)
     current_rating = saved.get("rating", None)
     default_index = (int(current_rating) - 1) if isinstance(current_rating, int) and 1 <= int(current_rating) <= 5 else 2
 
@@ -309,7 +333,7 @@ def render_review_page():
             st.session_state.answers[qid] = {"text": saved.get("text", ""), "rating": int(rating)}
             go("list")
     with c3:
-        st.markdown("<div class='subtle' style='text-align:right;'>별점 저장 후 리스트로 돌아갑니다.</div>", unsafe_allow_html=True)
+        st.markdown("<div class='subtle' style='text-align:right'>별점 저장 후 리스트로 돌아갑니다.</div>", unsafe_allow_html=True)
 
     frame_close()
 
