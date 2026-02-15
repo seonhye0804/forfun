@@ -171,25 +171,23 @@ def render_solve_page():
     st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
     # 카드 출력: 2개면 2열, 3개면 3열
+    # 카드 출력: 2개면 2열, 3개면 3열
     if len(q.cards) == 2:
         c1, c2 = st.columns(2)
         with c1:
-            st.text_area(
-            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True))
+            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True)
         with c2:
-            st. text_area(
-            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True))
+            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True)
+    
     elif len(q.cards) == 3:
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.text_area(
-            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True))
+            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True)
         with c2:
-            st.text_area(
-            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True))
+            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True)
         with c3:
-            st.text_area(
-            st.markdown(f"<div class='card'>{q.cards[2]}</div>", unsafe_allow_html=True))
+            st.markdown(f"<div class='card'>{q.cards[2]}</div>", unsafe_allow_html=True)
+    
     else:
         for card in q.cards:
             st.markdown(f"<div class='card'>{card}</div>", unsafe_allow_html=True)
