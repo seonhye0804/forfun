@@ -267,8 +267,7 @@ def render_review_page():
 # ---------------------------
 def main():
     st.set_page_config(page_title="피로사회 마무리 퀴즈", layout="wide")
-    st.markdown(CSS, unsafe_allow_html=True)
-
+  
     init_state()
 
     if st.session_state.page == "start":
