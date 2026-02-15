@@ -89,74 +89,6 @@ def get_question(qid: str) -> Question:
     return QUESTIONS[0]
 
 
-# ---------------------------
-# 2) 스타일 (우상단 Streamlit UI 요소 숨김 + 화면 스타일)
-# ---------------------------
-CSS = """
-<style>
-/* ===== Streamlit 기본 UI(우상단 텍스트/큰 사각형 포함) 숨김 ===== */
-#MainMenu { visibility: hidden; }
-footer { visibility: hidden; }
-header { visibility: hidden; }
-
-/* 우상단 툴바/상태 위젯/장식 요소 숨김 (Streamlit 버전별 대응) */
-[data-testid="stToolbar"] { display: none !important; }
-[data-testid="stDecoration"] { display: none !important; }
-[data-testid="stHeader"] { display: none !important; }
-[data-testid="stStatusWidget"] { display: none !important; }
-
-/* 상단 여백도 약간 줄이기(헤더를 숨기면 빈 공간이 생기는 경우 보정) */
-.block-container { padding-top: 1.6rem; padding-bottom: 2.2rem; max-width: 1100px; }
-
-/* ===== 앱 본문 스타일 ===== */
-.frame {
-  border: 2px solid #7a7a7a;
-  border-radius: 4px;
-  background: #ffffff;
-  padding: 36px 42px;
-  min-height: 520px;
-}
-.center-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 440px;
-  gap: 18px;
-}
-.h-title {
-  font-size: 44px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 0;
-  text-align: center;
-}
-.subtle { color: #4b4b4b; font-size: 15px; line-height: 1.5; text-align: center; }
-
-div.stButton > button {
-  border: 2px solid #6d6d6d !important;
-  background: #bdbdbd !important;
-  color: #1f1f1f !important;
-  border-radius: 999px !important;
-  padding: 10px 24px !important;
-  min-width: 220px;
-  font-weight: 600 !important;
-}
-.small-btn div.stButton > button { min-width: 180px; padding: 8px 18px !important; }
-
-.card {
-  border: 1.6px solid #8a8a8a;
-  background: #d9d9d9;
-  border-radius: 4px;
-  padding: 14px 14px;
-  min-height: 130px;
-  white-space: pre-wrap;
-  font-size: 14px;
-  color: #222;
-}
-.hr { height: 2px; background: #8b8b8b; border: 0; margin: 10px 0 18px 0; }
-</style>
-"""
 
 
 def frame_open():
@@ -175,10 +107,7 @@ def render_top_label(label: str):
 # 3) 페이지 렌더링
 # ---------------------------
 def render_start_page():
-    render_top_label("1. 첫 접속 화면")
-    frame_open()
-
-    st.markdown('<div class="center-wrap">', unsafe_allow_html=True)
+   
 
     # 시작화면 타이틀(요청: 크게)
     st.markdown('<p class="h-title">피로사회 마무리 퀴즈</p>', unsafe_allow_html=True)
@@ -193,12 +122,11 @@ def render_start_page():
             go("list")
 
     st.markdown("</div>", unsafe_allow_html=True)
-    frame_close()
+  
 
 
 def render_list_page():
-    render_top_label("2. 질문 리스트")
-    frame_open()
+    
 
     st.markdown(f"**학생:** {st.session_state.student.strip()}")
     st.markdown("<hr class='hr'/>", unsafe_allow_html=True)
@@ -231,13 +159,11 @@ def render_list_page():
     if st.button("처음으로"):
         go("start")
 
-    frame_close()
+   
 
 
 def render_solve_page():
-    render_top_label("3. 질문 풀이 화면")
-    frame_open()
-
+   
     qid = st.session_state.active_qid or QUESTIONS[0].qid
     q = get_question(qid)
 
@@ -289,12 +215,10 @@ def render_solve_page():
     with b3:
         st.markdown("<div class='subtle' style='text-align:left'>제출 후 별점을 매기고 질문 리스트로 돌아갑니다.</div>", unsafe_allow_html=True)
 
-    frame_close()
+    
 
 
 def render_review_page():
-    render_top_label("4. 제출 확인/자가채점")
-    frame_open()
 
     qid = st.session_state.active_qid or QUESTIONS[0].qid
     q = get_question(qid)
@@ -335,7 +259,7 @@ def render_review_page():
     with c3:
         st.markdown("<div class='subtle' style='text-align:right'>별점 저장 후 리스트로 돌아갑니다.</div>", unsafe_allow_html=True)
 
-    frame_close()
+ 
 
 
 # ---------------------------
