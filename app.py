@@ -172,26 +172,25 @@ def render_solve_page():
 
     # 카드 출력: 2개면 2열, 3개면 3열
     # 카드 출력: 2개면 2열, 3개면 3열
-    if len(q.cards) == 2:
-        c1, c2 = st.columns(2)
-        with c1:
-            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True)
-        with c2:
-            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True)
-    
-    elif len(q.cards) == 3:
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True)
-        with c2:
-            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True)
-        with c3:
-            st.markdown(f"<div class='card'>{q.cards[2]}</div>", unsafe_allow_html=True)
-    
-    else:
-        for card in q.cards:
-            st.markdown(f"<div class='card'>{card}</div>", unsafe_allow_html=True)
-            st.markdown("")
+   if len(q.cards) == 2:
+    c1, c2 = st.columns(2)
+    with c1:
+        st.text_area("카드 1", value=q.cards[0], height=220, disabled=True)
+    with c2:
+        st.text_area("카드 2", value=q.cards[1], height=220, disabled=True)
+
+elif len(q.cards) == 3:
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.text_area("카드 1", value=q.cards[0], height=220, disabled=True)
+    with c2:
+        st.text_area("카드 2", value=q.cards[1], height=220, disabled=True)
+    with c3:
+        st.text_area("카드 3", value=q.cards[2], height=220, disabled=True)
+
+else:
+    for i, card in enumerate(q.cards, start=1):
+        st.text_area(f"카드 {i}", value=card, height=220, disabled=True)
 
     st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
 
