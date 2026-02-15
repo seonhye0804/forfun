@@ -110,8 +110,8 @@ def render_start_page():
    
 
     # 시작화면 타이틀(요청: 크게)
-    st.markdown('<p class="h-title">피로사회 마무리 퀴즈</p>', unsafe_allow_html=True)
-    st.markdown('<div class="subtle">웹사이트 접속 → 시작하기 → 질문 리스트 → 카드 조건 활용해 답변</div>', unsafe_allow_html=True)
+    st.markdown("# **피로사화 마무리 퀴즈**\n")
+    
 
     st.text_input("학생 이름", key="student", placeholder="예: 2학년 3반 홍길동")
 
