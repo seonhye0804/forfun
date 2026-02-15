@@ -110,7 +110,7 @@ def render_start_page():
    
 
     # 시작화면 타이틀(요청: 크게)
-    st.markdown("# **피로사 마무리 퀴즈**\n")
+    st.markdown("# **피로사회 마무리 퀴즈**\n")
     
 
     st.text_input("학생 이름", key="student", placeholder="예: 2학년 3반 홍길동")
@@ -174,17 +174,22 @@ def render_solve_page():
     if len(q.cards) == 2:
         c1, c2 = st.columns(2)
         with c1:
-            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True)
+            st.text_area(
+            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True))
         with c2:
-            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True)
+            st. text_area(
+            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True))
     elif len(q.cards) == 3:
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True)
+            st.text_area(
+            st.markdown(f"<div class='card'>{q.cards[0]}</div>", unsafe_allow_html=True))
         with c2:
-            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True)
+            st.text_area(
+            st.markdown(f"<div class='card'>{q.cards[1]}</div>", unsafe_allow_html=True))
         with c3:
-            st.markdown(f"<div class='card'>{q.cards[2]}</div>", unsafe_allow_html=True)
+            st.text_area(
+            st.markdown(f"<div class='card'>{q.cards[2]}</div>", unsafe_allow_html=True))
     else:
         for card in q.cards:
             st.markdown(f"<div class='card'>{card}</div>", unsafe_allow_html=True)
